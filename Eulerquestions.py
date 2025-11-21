@@ -334,7 +334,10 @@ def get_numbers() -> list[int]:
 def solution_big_ints() -> int:
     full_sum = sum(get_numbers())
     return int(str(full_sum)[:10])
+#problem 15
+import math
 
+print(math.factorial(40)/(math.factorial((20))*math.factorial(20)))
 #problem 16
 # 2**1000 = (2**2)**500 = 16**250 = 256**125 =65536**75
 
