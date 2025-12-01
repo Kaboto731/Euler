@@ -181,8 +181,9 @@ def p10(n=2000000):
 	return S[n]
 
 #problem 11
-"""
-x=8 2 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+import numpy as np
+x="""
+8 2 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
 52 70 95 23 4 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
@@ -201,8 +202,36 @@ x=8 2 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
 20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
-01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48]
+01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
     """
+largest=0    
+lst = np.array(list(map(int, x.split())))
+grid = lst.reshape(20,20)
+def product_in_direction(grid, start, direction, steps):
+    x0, y0 = start
+    dx, dy = direction
+
+    if  not(0 <= y0                  < len(grid) and
+            0 <= y0 + (steps - 1)*dy < len(grid) and
+            0 <= x0                  < len(grid[y0]) and
+            0 <= x0 + (steps - 1)*dx < len(grid[y0])):
+        return 0
+
+    product = 1
+    for n in range(steps):
+        product *= grid[y0 + n*dy][x0 + n*dx]
+    return product
+
+for y in range(len(grid)):
+    for x in range(len(grid[y])):
+        largest = max(
+            product_in_direction(grid, (x, y),   (1,  0), 4), # horizontal
+            product_in_direction(grid, (x, y),   (0,  1), 4), # vertical
+            product_in_direction(grid, (x, y  ), (1,  1), 4), # right diagonal
+            product_in_direction(grid, (x, y+3), (1, -1), 4), # left diagonal
+            largest,
+        )
+
 
 #problem 12
 
@@ -334,7 +363,10 @@ def get_numbers() -> list[int]:
 def solution_big_ints() -> int:
     full_sum = sum(get_numbers())
     return int(str(full_sum)[:10])
+#problem 15
+import math
 
+print(math.factorial(40)/(math.factorial((20))*math.factorial(20)))
 #problem 16
 # 2**1000 = (2**2)**500 = 16**250 = 256**125 =65536**75
 
